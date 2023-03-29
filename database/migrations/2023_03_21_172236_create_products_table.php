@@ -19,9 +19,10 @@ return new class extends Migration
             $table->string('thumbnail')->nullable();
             $table->bigInteger('price')->default(0);
             $table->foreignIdFor(Brand::class)
+                ->nullable()
                 ->constrained()
                 ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+                ->nullOnDelete();
 
             $table->timestamps();
         });

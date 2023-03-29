@@ -26,24 +26,37 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // выдаст exeption если мы гдо-то забудем игрлоды (Eager loader)
-        Model::preventLazyLoading(!app()->isProduction());
+        Model::shouldBeStrict(!app()->isProduction());
 
-        //Выдаст exeption, если будем сохранять какое либо поле которого нет в свойстве $fillable[]
-        Model::preventSilentlyDiscardingAttributes(!app()->isProduction());
+        if (app()->isProduction()){
+            //Сообщит, если запрос (один имеется ввиду) к базе дольше чем указанное количество миллисекунд.
+            //Не забыть узы (use) добавить (3шт)
+            DB::whenQueryingForLongerThan(CarbonInterval::seconds(5), function (Connection $connection) {
+                logger()
+                    ->channel('telegram')
+                    ->debug('whenQueryingForLongerThan: ' . $connection->totalQueryDuration());
+            });
 
-        //Сообщит, если запрос (один имеется ввиду) к базе дольше чем указанное количество миллисекунд.
-        //Не забыть узы (use) добавить (3шт)
-        DB::whenQueryingForLongerThan(500, function (Connection $connection, QueryExecuted $event) {
-            logger()->channel('telegram')->debug('whenQueryingForLongerThan' . $connection->query()->toSql());
-        });
+            DB::listen(function ($query)
+            {
+//                $query->sql;
+//                $query->bindings;
+//                $query->time;
 
-        $kernel = app(Kernel::class);
-        $kernel->whenRequestLifecycleIsLongerThan(
-            CarbonInterval::seconds(4),
-            function (){
-                logger()->channel('telegram')->debug('whenRequestLifecycleIsLongerThan' . request()->url());
-            }
-        );
+                if ($query->time > 500){
+                    logger()
+                        ->channel('telegram')
+                        ->debug('DB::listen - запрос загулял' . $query->sql, $query->bindings);
+                }
+            });
+
+            $kernel = app(Kernel::class);
+            $kernel->whenRequestLifecycleIsLongerThan(
+                CarbonInterval::seconds(4),
+                function (){
+                    logger()->channel('telegram')->debug('whenRequestLifecycleIsLongerThan' . request()->url());
+                }
+            );
+        }
     }
 }
