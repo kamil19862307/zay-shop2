@@ -4,11 +4,10 @@ namespace App\Providers;
 
 use App\Http\Kernel;
 use Carbon\CarbonInterval;
-use Illuminate\Database\Connection;
+use Faker\Factory;
+use Faker\Generator;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -18,7 +17,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(Generator::class, function (){
+            $faker = Factory::create();
+            $faker->addProvider(new FakeImageProvider($faker));
+            return $faker;
+        });
     }
 
     /**
