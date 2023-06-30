@@ -54,9 +54,13 @@ class AuthController extends Controller
             $request->only('email')
         );
 
-        return $status === Password::RESET_LINK_SENT
-            ? back()->with(['message' => __($status)])
-            : back()->withErrors(['email' => __($status)]);
+        if($status === Password::RESET_LINK_SENT){
+            flash()->info(__($status));
+
+            return back();
+        }
+
+        return back()->withErrors(['email' => __($status)]);
     }
 
     public function reset($token): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
@@ -66,7 +70,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function resetPassword(ResetPasswordFormRequest $request)
+    public function resetPassword(ResetPasswordFormRequest $request): RedirectResponse
     {
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
@@ -81,9 +85,12 @@ class AuthController extends Controller
             }
         );
 
-        return $status === Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('message', __($status))
-            : back()->withErrors(['email' => [__($status)]]);
+        if ( $status === Password::PASSWORD_RESET){
+            flash()->info(__($status));
+
+            return redirect()->route('login');
+        }
+            return redirect()->route('login')->withErrors(['email' => [__($status)]]);
     }
 
     public function signIn(SignInFormRequest $request): RedirectResponse
