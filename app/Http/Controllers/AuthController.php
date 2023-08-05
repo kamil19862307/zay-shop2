@@ -88,9 +88,9 @@ class AuthController extends Controller
         if ( $status === Password::PASSWORD_RESET){
             flash()->info(__($status));
 
-            return redirect()->route('login');
+            return redirect()->route('logIn');
         }
-            return redirect()->route('login')->withErrors(['email' => [__($status)]]);
+            return redirect()->route('logIn')->withErrors(['email' => [__($status)]]);
     }
 
     public function signIn(SignInFormRequest $request): RedirectResponse
@@ -106,7 +106,7 @@ class AuthController extends Controller
         return redirect()->intended(route('home'));
     }
 
-    public function logout(): RedirectResponse
+    public function logOut(): RedirectResponse
     {
         auth()->logout();
 

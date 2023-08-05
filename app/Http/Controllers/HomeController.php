@@ -2,15 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function __invoke(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function __invoke(): View|Application|Factory
     {
-        return view('index');
+        $categories = Category::query()
+            ->homePage()
+            ->get();
+
+        $brands = Brand::query()
+            ->homePage()
+            ->get();
+
+        $products = Product::query()
+            ->homePage()
+            ->get();
+
+        return view('index', compact(
+            'categories',
+            'brands',
+            'products'
+        ));
     }
 }

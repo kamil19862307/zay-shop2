@@ -78,7 +78,7 @@
                 </x-forms.primary-button>
 
                 <div class="form-group col-md-8 m-auto mb-3">
-                    <a href="{{ route('login') }}"><button
+                    <a href="{{ route('logIn') }}"><button
                         type="button"
                         class="btn btn-success col-md-8 btn-lg px-2"
                         style="background-color: #dfe7e1 !important; color: rgb(14, 27, 11);"

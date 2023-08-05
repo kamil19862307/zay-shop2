@@ -9,7 +9,7 @@ Route::get('/', HomeController::class)->name('home');
 
 
 Route::controller(AuthController::class)->group(function(){
-   Route::get('/login', 'index')->name('login');
+   Route::get('/login', 'index')->name('logIn');
    Route::post('/login', 'signIn')->name('signIn');
 
    Route::get('/sign-up', 'signUp')->name('signUp');
@@ -31,5 +31,5 @@ Route::controller(AuthController::class)->group(function(){
         ->middleware('guest')
         ->name('password.update');
 
-   Route::delete('/logout', 'logOut')->name('logout');
+   Route::delete('/logout', 'logOut')->name('logOut');
 });

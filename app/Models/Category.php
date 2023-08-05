@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,7 +17,16 @@ class Category extends Model
     protected $fillable = [
         'title',
         'slug',
+        'on_home_page',
+        'sorting',
     ];
+
+    public function scopeHomePage(Builder $query)
+    {
+        $query->where('on_home_page', true)
+            ->orderBy('sorting')
+            ->limit(3);
+    }
 
     /**
      * Get the options for generating the slug.
