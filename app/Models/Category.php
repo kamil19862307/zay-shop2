@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Models\HasThumbnail;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
@@ -13,13 +14,20 @@ class Category extends Model
 {
     use HasFactory;
     use HasSlug;
+    use HasThumbnail;
 
     protected $fillable = [
         'title',
         'slug',
+        'thumbnail',
         'on_home_page',
         'sorting',
     ];
+
+    protected function thumbnailDir(): string
+    {
+        return 'categories';
+    }
 
     public function scopeHomePage(Builder $query)
     {

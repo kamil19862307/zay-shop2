@@ -1,7 +1,7 @@
 <div class="col-12 col-md-4 mb-4">
     <div class="card h-100">
         <a href="#">
-            <img src="{{ $item->thumbnail }}" class="card-img-top" alt="{{ $item->title }}">
+            <img src="{{ $item->makeThumbnail('414x310') }}" class="card-img-top" alt="{{ $item->title }}">
         </a>
         <div class="card-body">
             <ul class="list-unstyled d-flex justify-content-between">

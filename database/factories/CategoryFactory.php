@@ -18,6 +18,7 @@ class CategoryFactory extends Factory
     {
         return [
             'title' => fake()->company(),
+            'thumbnail' => $this->faker->fixturesImage('categories', 'images/categories'),
             'on_home_page' => $this->faker->boolean(70),
             'sorting' => $this->faker->numberBetween(1, 999),
         ];
