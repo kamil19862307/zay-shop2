@@ -12,7 +12,7 @@
                     <i class="text-muted fa fa-star"></i>
                     <i class="text-muted fa fa-star"></i>
                 </li>
-                <li class="text-muted text-right">{{ $item->price }} р</li>
+                <li class="text-muted text-right">{{ $item->price }}</li>
             </ul>
             <a href="#" class="h2 text-decoration-none text-dark">{{ $item->title }}</a>
             <p class="card-text">

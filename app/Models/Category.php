@@ -31,7 +31,8 @@ class Category extends Model
 
     public function scopeHomePage(Builder $query)
     {
-        $query->where('on_home_page', true)
+        $query->select('id', 'title', 'slug', 'thumbnail')
+            ->where('on_home_page', true)
             ->orderBy('sorting')
             ->limit(3);
     }

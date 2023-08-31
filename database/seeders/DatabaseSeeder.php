@@ -7,6 +7,8 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
+use Database\Factories\BrandFactory;
+use Database\Factories\CategoryFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -29,9 +31,9 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt(12345678)
         ]);
 
-        Brand::factory(20)->create();
+        BrandFactory::new()->count(20)->create();
 
-        Category::factory(10)
+        CategoryFactory::new()->count(10)
             ->has(Product::factory(rand(1, 15)))
             ->create();
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Casts\PriceCast;
 use App\Traits\Models\HasThumbnail;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Sluggable\HasSlug;
@@ -28,6 +29,10 @@ class Product extends Model
         'sorting',
     ];
 
+    protected $casts = [
+        'price' => PriceCast::class
+    ];
+
     protected function thumbnailDir(): string
     {
         return 'products';
@@ -35,7 +40,8 @@ class Product extends Model
 
     public function scopeHomePage(Builder $query)
     {
-        $query->where('on_home_page', true)
+        $query->select(['id', 'title', 'slug', 'price', 'thumbnail'])
+            ->where('on_home_page', true)
             ->orderBy('sorting', 'desc')
             ->limit(3);
     }
