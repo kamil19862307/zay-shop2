@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\File;
 
 trait HasThumbnail
 {
-    public function makeThumbnail(string $size, string $method = 'resize')
+    public function makeThumbnail(string $size, string $method = 'resize'): string
     {
         return route('thumbnail', [
             'size' => $size,

@@ -14,9 +14,13 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
 
-            $table->string('title');
+            $table->string('title')
+                ->fulltext();
             $table->string('slug')
                 ->unique();
+            $table->text('text')
+                ->nullable();
+            $table->fullText(['title', 'text']);
             $table->string('thumbnail')
                 ->nullable();
             $table->bigInteger('price')
