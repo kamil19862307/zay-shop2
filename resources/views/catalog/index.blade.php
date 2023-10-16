@@ -9,96 +9,59 @@
 
         <div class="col-lg-3">
             <form action="{{ route('catalog', $category) }}">
-            <h1 class="h2 pb-4">Фильтры</h1>
-            <ul class="list-unstyled templatemo-accordion">
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Цена
-                        <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul class="collapse show list-unstyled pl-3">
-                        <li>
-                            <input type="number"
-                                   name="filters[price][from]"
-                                   value="{{ request('filters.price.from', 0) }}"
-                                   placeholder="От">
-                        </li>
-                        <li class="mt-2">
-                            <input type="number"
-                                   name="filters[price][to]"
-                                   value="{{ request('filters.price.to', 100000) }}"
-                                   placeholder="До">
-                        </li>
-                    </ul>
-                </li>
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Пол
-                        <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul class="collapse show list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="#">Men</a></li>
-                        <li><a class="text-decoration-none" href="#">Women</a></li>
-                    </ul>
-                </li>
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Цвет
-                        <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul id="collapseTwo" class="collapse list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="#">Белый</a></li>
-                        <li><a class="text-decoration-none" href="#">Черный</a></li>
-                        <li><a class="text-decoration-none" href="#">Крассный</a></li>
-                        <li><a class="text-decoration-none" href="#">Зеленый</a></li>
-                        <li><a class="text-decoration-none" href="#">Желтый</a></li>
-                        <li><a class="text-decoration-none" href="#">Синий</a></li>
-                    </ul>
-                </li>
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Бренд
-                        <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                        @foreach($brands as $brand)
-                            <li>
-                                <input type="checkbox"
-                                    name="filters[brands][{{ $brand->id }}]"
-                                    value="{{ $brand->id }}"
-                                    @checked(request('filters.brands.' . $brand->id))
-                                    id="filters-brands-{{ $brand->id }}"
-                                >
-                                <label for="filters-brands-{{ $brand->id }}">
-                                    <a class="text-decoration-none"
-                                       href="{{ route('catalog') }}?filters[brands][{{ $brand->id }}]={{ $brand->id }}">
-                                        {{ $brand->title }}
-                                    </a>
-                                </label>
-                            </li>
-                        @endforeach
-                    </ul>
-                </li>
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Категории
-                        <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                        @each('catalog.shared.category-catalog', $categories, 'item')
-                    </ul>
-                </li>
-            </ul>
-                <button type="submit" class="btn btn-success btn-lg">
-                    Применить
-                </button>
-                @if(request('filters') || request('sort'))
-                    <a href="{{ route('catalog') }}">
-                        <button type="button" class="btn btn-success btn-lg">
-                            Сбросить
-                        </button>
-                    </a>
-                @endif
+                <input type="hidden" name="sort" value="{{ request('sort') }}">
+                <h1 class="h2 pb-4">Фильтры</h1>
+                <ul class="list-unstyled templatemo-accordion">
+
+                    {{-- Filters --}}
+                    @foreach(filters() as $filter)
+                        {!! $filter !!}
+                    @endforeach
+
+                    <li class="pb-3">
+                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                            Пол
+                            <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
+                        </a>
+                        <ul class="collapse show list-unstyled pl-3">
+                            <li><a class="text-decoration-none" href="#">Men</a></li>
+                            <li><a class="text-decoration-none" href="#">Women</a></li>
+                        </ul>
+                    </li>
+                    <li class="pb-3">
+                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                            Цвет
+                            <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                        </a>
+                        <ul id="collapseTwo" class="collapse list-unstyled pl-3">
+                            <li><a class="text-decoration-none" href="#">Белый</a></li>
+                            <li><a class="text-decoration-none" href="#">Черный</a></li>
+                            <li><a class="text-decoration-none" href="#">Крассный</a></li>
+                            <li><a class="text-decoration-none" href="#">Зеленый</a></li>
+                            <li><a class="text-decoration-none" href="#">Желтый</a></li>
+                            <li><a class="text-decoration-none" href="#">Синий</a></li>
+                        </ul>
+                    </li>
+                    <li class="pb-3">
+                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                            Категории
+                            <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                        </a>
+                        <ul id="collapseThree" class="collapse list-unstyled pl-3">
+                            @each('catalog.shared.category-catalog', $categories, 'item')
+                        </ul>
+                    </li>
+                </ul>
+                    <button type="submit" class="btn btn-success btn-lg">
+                        Применить
+                    </button>
+                    @if(request('filters') || request('sort'))
+                        <a href="{{ route('catalog') }}">
+                            <button type="button" class="btn btn-success btn-lg">
+                                Сбросить
+                            </button>
+                        </a>
+                    @endif
             </form>
         </div>
 

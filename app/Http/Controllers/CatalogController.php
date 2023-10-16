@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Contracts\View\Factory;
@@ -15,11 +14,6 @@ class CatalogController extends Controller
     public function __invoke(?Category $category): View|Application|Factory
     {
         $categories = Category::query()
-            ->select(['id', 'title', 'slug'])
-            ->has('products')
-            ->get();
-
-        $brands = Brand::query()
             ->select(['id', 'title', 'slug'])
             ->has('products')
             ->get();
@@ -38,7 +32,6 @@ class CatalogController extends Controller
 
         return view('catalog.index', compact(
             'categories',
-            'brands',
             'products',
             'category',
         ));

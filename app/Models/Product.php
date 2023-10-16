@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Support\Casts\PriceCast;
 use App\Traits\Models\HasThumbnail;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pipeline\Pipeline;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -41,16 +42,10 @@ class Product extends Model
 
     public function scopeFiltered(Builder $query)
     {
-        $query->when(request('filters.brands'), function (Builder $q){
-                $q->whereIn('brand_id', request('filters.brands'));
-            })
-
-            ->when(request('filters.price'), function (Builder $q){
-                $q->whereBetween('price', [
-                    request('filters.price.from', 0) * 100,
-                    request('filters.price.to', 1000000) *100,
-                ]);
-            });
+        return app(Pipeline::class)
+            ->send($query)
+            ->through(filters())
+            ->thenReturn();
     }
 
     public function scopeSorted(Builder $query)
