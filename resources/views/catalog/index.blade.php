@@ -97,7 +97,7 @@
                 </div>
             </div>
             <div class="row">
-                @each('catalog.shared.product-catalog', $products, 'item')
+                @each('product.shared.product-catalog', $products, 'item')
             </div>
             <div div="row">
                 {{ $products->withQueryString()->links('pagination::bootstrap-5') }}

@@ -1,6 +1,6 @@
 <div class="col-12 col-md-4 mb-4">
     <div class="card h-100">
-        <a href="#">
+        <a href="{{ route('product', $item) }}">
             <img src="{{ $item->makeThumbnail('414x310') }}" class="card-img-top" alt="{{ $item->title }}">
         </a>
         <div class="card-body">
@@ -14,7 +14,7 @@
                 </li>
                 <li class="text-muted text-right">{{ $item->price }}</li>
             </ul>
-            <a href="#" class="h2 text-decoration-none text-dark">{{ $item->title }}</a>
+            <a href="{{ route('product', $item) }}" class="h2 text-decoration-none text-dark">{{ $item->title }}</a>
             <p class="card-text">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, ut.
             </p>

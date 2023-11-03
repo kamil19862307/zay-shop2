@@ -119,7 +119,7 @@
             </div>
             <div class="row">
 
-                @each('catalog.shared.product', $products, 'item')
+                @each('product.shared.product', $products, 'item')
 
             </div>
         </div>
