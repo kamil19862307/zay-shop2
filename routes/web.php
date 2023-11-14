@@ -5,6 +5,7 @@ use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ThumbnailController;
+use App\Http\Middleware\CatalogView;
 use Illuminate\Support\Facades\Route;
 
 
@@ -21,7 +22,9 @@ Route::middleware('web')->group(function (){
         ->where('file', '.+\.(jpg|png|bmp|gif|jpeg)$')
         ->name('thumbnail');
 
-    Route::get('/catalog/{category:slug?}', CatalogController::class)->name('catalog');
+    Route::get('/catalog/{category:slug?}', CatalogController::class)
+        ->middleware(CatalogView::class)
+        ->name('catalog');
 
     Route::controller(AuthController::class)->group(function(){
        Route::get('/login', 'index')->name('logIn');

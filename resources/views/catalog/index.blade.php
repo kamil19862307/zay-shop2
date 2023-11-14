@@ -70,36 +70,38 @@
                 <div class="col-md-6">
                     <ul class="list-inline shop-top-menu pb-3 pt-1">
                         <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
+                            <a href="{{ filter_url($category, ['view' => 'grid']) }}"
+                               class="@if(is_catalog_view('grid')) h2 @else h3 @endif text-dark text-decoration-none" >
+                                <i class="fa fa-th" aria-hidden="true"></i>
+                            </a>
                         </li>
                         <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none mr-3" href="#">Men's</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none" href="#">Women's</a>
+                            <a href="{{ filter_url($category, ['view' => 'list']) }}"
+                               class="@if(is_catalog_view('list')) h2 @else h3 @endif text-dark text-decoration-none" >
+                                <i class="fa fa-list" aria-hidden="true"></i>
+                            </a>
                         </li>
                     </ul>
                 </div>
-                <div x-data="{}" class="col-md-6 pb-4">
-                    <form x-ref="sortForm" action="{{ route('catalog', $category) }}">
+                <div x-data="{sort:'{{ filter_url($category, ['sort' => request('sort')]) }}'}" class="col-md-6 pb-4">
                         <div class="d-flex">
                             <select name="sort"
-                                    x-on:change="$refs.sortForm.submit()"
+                                    x-model="sort"
+                                    x-on:change="window.location = sort"
                                     class="form-control"
                             >
-                                <option value="">Сортировать по умолчанию</option>
-                                <option @selected(request('sort') === 'price') value="price">Сначала недорогие</option>
-                                <option @selected(request('sort') === '-price') value="-price">Сначала дорогие</option>
-                                <option @selected(request('sort') === 'title') value="title">По алфавиту</option>
+                                <option value="{{ filter_url($category, ['sort' => '']) }}">Сортировка по умолчанию</option>
+                                <option value="{{ filter_url($category, ['sort' => 'price']) }}">Сначала недорогие</option>
+                                <option value="{{ filter_url($category, ['sort' => '-price']) }}">Сначала дорогие</option>
+                                <option value="{{ filter_url($category, ['sort' => 'title']) }}">По наименованию</option>
                             </select>
                         </div>
-                    </form>
                 </div>
             </div>
             <div class="row">
-                @each('product.shared.product-catalog', $products, 'item')
+                @each('product.shared.product-catalog' . (is_catalog_view('list') ? '-list' : ''), $products, 'item')
             </div>
-            <div div="row">
+            <div class="row">
                 {{ $products->withQueryString()->links('pagination::bootstrap-5') }}
             </div>
         </div>

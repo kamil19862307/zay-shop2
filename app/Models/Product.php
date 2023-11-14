@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Facades\Sorter;
 use App\Support\Casts\PriceCast;
 use App\Traits\Models\HasThumbnail;
 use Illuminate\Database\Eloquent\Builder;
@@ -50,15 +51,7 @@ class Product extends Model
 
     public function scopeSorted(Builder $query)
     {
-        $query->when(request('sort'), function (Builder $q){
-            $column = request()->str('sort');
-
-            if ($column->contains(['price', 'title'])){
-                $direction = $column->contains('-') ? 'DESC' : 'ASC';
-
-                $q->orderBy((string) $column->remove('-'), $direction);
-            }
-        });
+        Sorter::run($query);
     }
 
     public function scopeHomePage(Builder $query)
