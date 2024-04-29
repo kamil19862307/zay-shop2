@@ -197,6 +197,7 @@ return [
         App\Providers\TelescopeServiceProvider::class,
         App\Providers\ViewServiceProvider::class,
         App\Providers\CatalogServiceProvider::class,
+        App\Providers\CartServiceProvider::class,
 
     ],
 

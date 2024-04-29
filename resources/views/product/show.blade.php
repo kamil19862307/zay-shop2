@@ -142,32 +142,33 @@
                             </li>
                         </ul>
 
+                        <form action="{{ route('cart.add', $product) }}" method="post">
+                            @csrf
 
-                        <div class="row pb-3">
-                            @foreach($options as $option => $values)
-                                <div class="col d-grid">
-                                    <h5>{{ $option }}</h5>
-                                    <select class="form-select" aria-label="Default select example">
-                                        @foreach($values as $value)
-                                            <option value="{{ $value->id }}">{{ $value->title }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                          @endforeach
-                        </div>
+                            <div class="row pb-3">
+                                @foreach($options as $option => $values)
+                                    <div class="col d-grid">
+                                        <h5>{{ $option }}</h5>
+                                        <select name="options[]" class="form-select" aria-label="Default select example">
+                                            @foreach($values as $value)
+                                                <option value="{{ $value->id }}">{{ $value->title }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                              @endforeach
+                            </div>
 
 
-                        <h6>Характеристики:</h6>
-                        <ul class="list-unstyled pb-3">
-                            @foreach($product->properties as $property)
-                                <li>
-                                    <strong class="text-decoration-underline mr-5">{{ $property->title }}: </strong>
-                                        {{ $property->pivot->value }}
-                                </li>
-                            @endforeach
-                        </ul>
+                            <h6>Характеристики:</h6>
+                            <ul class="list-unstyled pb-3">
+                                @foreach($product->json_properties as $property => $value)
+                                    <li>
+                                        <strong class="text-decoration-underline mr-5">{{ $property }}: </strong>
+                                            {{ $value }}
+                                    </li>
+                                @endforeach
+                            </ul>
 
-                        <form action="" method="GET">
                             <input type="hidden" name="product-title" value="Activewear">
                             <div class="row">
                                 <div class="col-auto">
@@ -188,17 +189,27 @@
                                             <input type="hidden" name="product-quanity" id="product-quanity" value="1">
                                         </li>
                                         <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
-                                        <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">1</span></li>
+                                        <li class="list-inline-item">
+                                            <span class="badge bg-secondary" id="var-value">
+                                                <input
+                                                   name="quantity"
+                                                   type="number"
+                                                   value="1"
+                                                   min="1"
+                                                   max="999"
+                                                >
+                                            </span>
+                                        </li>
                                         <li class="list-inline-item"><span class="btn btn-success" id="btn-plus">+</span></li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="row pb-3">
                                 <div class="col d-grid">
-                                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
+                                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Купить в один клик</button>
                                 </div>
                                 <div class="col d-grid">
-                                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocard">Add To Cart</button>
+                                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocard">Добавить в корзину</button>
                                 </div>
                             </div>
                         </form>

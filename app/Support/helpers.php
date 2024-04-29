@@ -1,9 +1,17 @@
 <?php
 
 use App\Filters\FilterManager;
+use App\Managers\CartManager;
 use App\Models\Category;
 use App\Sorters\Sorter;
 use App\Support\Flash\Flash;
+
+if (!function_exists('cart')) {
+    function cart(): CartManager
+    {
+        return app(CartManager::class);
+    }
+}
 
 if (!function_exists('filters')) {
     function filters(): array

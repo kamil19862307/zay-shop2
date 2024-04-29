@@ -13,10 +13,10 @@
         <div class="card-body col-md-8">
             <a href="{{ route('product', $item) }}" class="h3 text-decoration-none">{{ $item->title }}</a>
             <ul class="w-100 list-unstyled justify-content-between mb-0">
-                <li><b>Вес: </b> 160г</li>
-                <li><b>Размер: </b> 160г</li>
-                <li><b>Тип сенсора: </b> 160г</li>
-                <li><b>Подсветка: </b> 160г</li>
+
+                @foreach($item->json_properties as $property => $value)
+                    <li><b>{{ $property }}: </b> {{ $value }}</li>
+                @endforeach
 
             </ul>
             <ul class="list-unstyled d-flex justify-content-lg-start mb-1">

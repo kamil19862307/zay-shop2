@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Facades\Sorter;
+use App\Jobs\ProductJsonProperties;
 use App\Support\Casts\PriceCast;
 use App\Traits\Models\HasThumbnail;
 use Illuminate\Database\Eloquent\Builder;
@@ -29,11 +30,13 @@ class Product extends Model
         'thumbnail',
         'on_home_page',
         'sorting',
-        'text'
+        'text',
+        'json_properties'
     ];
 
     protected $casts = [
-        'price' => PriceCast::class
+        'price' => PriceCast::class,
+        'json_properties' => 'array'
     ];
 
     protected function thumbnailDir(): string
@@ -60,6 +63,16 @@ class Product extends Model
             ->where('on_home_page', true)
             ->orderBy('sorting', 'desc')
             ->limit(3);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function(Product $product){
+            ProductJsonProperties::dispatch($product)
+                ->delay(now()->addSeconds(10));
+        });
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Http\Requests\ResetPasswordFormRequest;
 use App\Http\Requests\SignInFormRequest;
 use App\Http\Requests\SignUpFormRequest;
 use App\Models\User;
+use App\Support\SessionRegenerator;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\View\Factory;
@@ -38,9 +39,9 @@ class AuthController extends Controller
 
         event(new Registered($user));
 
-        auth()->login($user);
+        SessionRegenerator::run(fn() => auth()->login($user));
 
-        return redirect()->intended(route('home'));
+        return redirect()->back();
     }
 
     public function forgot(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
@@ -95,25 +96,23 @@ class AuthController extends Controller
 
     public function signIn(SignInFormRequest $request): RedirectResponse
     {
-        if (!auth()->attempt($request->validated(), $request->get('remember'))) {
+        if (!auth()->once($request->validated(), $request->get('remember'))) {
             return back()->withErrors([
                 'email' => 'Введенные данные не совпадают с имеющимися в базе.',
             ])->onlyInput('email');
         }
 
-        $request->session()->regenerate();
+        SessionRegenerator::run(fn() => auth()->login(
+            auth()->user()
+        ));
 
         return redirect()->intended(route('home'));
     }
 
     public function logOut(): RedirectResponse
     {
-        auth()->logout();
+        SessionRegenerator::run(fn() => auth()->logout());
 
-        request()->session()->invalidate();
-
-        request()->session()->regenerateToken();
-
-        return redirect('/');
+        return redirect()->back();
     }
 }
