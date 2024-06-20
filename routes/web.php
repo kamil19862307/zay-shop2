@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ThumbnailController;
 use App\Http\Middleware\CatalogView;
@@ -68,5 +69,8 @@ Route::middleware('web')->group(function (){
             Route::delete('/truncate', 'truncate')->name('cart.truncate');
     });
 
-
+    Route::controller(OrderController::class)->group(function (){
+        Route::get('/order', 'index')->name('order');
+        Route::post('/order', 'handle')->name('order.handle');
+    });
 });

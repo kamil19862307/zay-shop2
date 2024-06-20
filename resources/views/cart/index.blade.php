@@ -36,11 +36,9 @@
                         </div>
                         <div class="form-group col-md-3 mb-3">
                             <label for="inputname">Title</label>
-                            <input type="text"
-                                   name="title"
-                                   class="form-control mt-1"
-                                   id="title"
-                                   value="{{ $item->product->title }}">
+                            <h4><a href="{{ route('product', $item->product->slug) }}" class="">
+                                {{ $item->product->title }}
+                            </a></h4>
                         </div>
                         <div class="form-group col-md-2 mb-3">
                             <label for="inputemail">Price</label>
@@ -107,7 +105,9 @@
                         </form>
                     </div>
                     <div class="col-md-2 mb-3 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-success btn-lg px-3">Buy</button>
+                        <a href="{{ route('order') }}">
+                            <button type="button" class="btn btn-success btn-lg px-3">Buy</button>
+                        </a>
                     </div>
                 </div>
 

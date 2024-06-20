@@ -9,11 +9,13 @@ class SessionRegenerator
 {
     public static function run(Closure $callback = null): void
     {
-        $old = request()->session()->getId();
+        $old = session()->getId();
 
-        request()->session()->invalidate();
+//        request()->session()->invalidate();
+        session()->invalidate();
 
-        request()->session()->regenerateToken();
+//        request()->session()->regenerateToken();
+        session()->regenerateToken();
 
         if (!is_null($callback))
             $callback();
