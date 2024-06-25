@@ -39,6 +39,7 @@
                             <h4><a href="{{ route('product', $item->product->slug) }}" class="">
                                 {{ $item->product->title }}
                             </a></h4>
+                            <h6>Остаток: {{ $item->product->quantity }} шт.</h6>
                         </div>
                         <div class="form-group col-md-2 mb-3">
                             <label for="inputemail">Price</label>

@@ -20,7 +20,7 @@
 @else
     <div class="container py-5">
         <div class="row py-5">
-            <form action="{{ route('order.handle') }}" method="post">
+            <form action="{{ route('order.handle') }}" method="POST">
                 @csrf
                 <div class="row">
 
@@ -55,7 +55,7 @@
                                name="customer[email]"
                                class="form-control mt-1"
                                id="customer[email]"
-                               value="{{ old('customer.last_name') }}"
+                               value="{{ old('customer.email') }}"
                                placeholder="Email"
                         >
 

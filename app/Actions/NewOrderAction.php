@@ -17,7 +17,7 @@ final class NewOrderAction
 
         if ($request->boolean('create_account')){
             $registerAction(NewUserDTO::make(
-                $customer['first_name'] . '' . $customer['last_name'],
+                $customer['first_name'] . ' ' . $customer['last_name'],
                 $customer['email'],
                 $request->get('password')
             ));

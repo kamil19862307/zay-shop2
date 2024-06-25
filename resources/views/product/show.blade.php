@@ -167,6 +167,10 @@
                                             {{ $value }}
                                     </li>
                                 @endforeach
+                                    <li>
+                                        <strong class="text-decoration-underline mr-5">Остаток на складе: </strong>
+                                        {{ $product->quantity }}
+                                    </li>
                             </ul>
 
                             <input type="hidden" name="product-title" value="Activewear">

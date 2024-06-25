@@ -26,8 +26,8 @@ class OrderFormRequest extends FormRequest
         return [
             'customer.first_name' => ['required'],
             'customer.last_name' => ['required'],
-            'customer.email' => ['required', 'email.dns'],
-            'customer.phone' => ['required', new PhoneRule],
+            'customer.email' => ['required', 'email:dns'],
+            'customer.phone' => ['required', new PhoneRule()],
             'customer.city' => ['sometimes'],
             'customer.address' => ['sometimes'],
             'create_account' => ['bool'],
@@ -35,7 +35,7 @@ class OrderFormRequest extends FormRequest
                 ? ['required', 'confirmed', Password::defaults()]
                 : ['sometimes'],
             'delivery_type_id' => ['required', 'exists:delivery_types,id'],
-            'payment_methods_id' => ['required', 'exists:payment_methods,id'],
+            'payment_method_id' => ['required', 'exists:payment_methods,id'],
         ];
     }
 }

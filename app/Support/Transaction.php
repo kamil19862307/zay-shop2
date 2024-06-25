@@ -4,6 +4,7 @@ namespace App\Support;
 
 use Closure;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class Transaction
 {
@@ -12,10 +13,10 @@ class Transaction
         Closure $callback,
 
         // Если транзакция успешно выполнилась
-        Closure $finished,
+        Closure $finished = null,
 
         // Если выпало исключение
-        Closure $onError
+        Closure $onError = null
     )
     {
         try {
@@ -31,7 +32,7 @@ class Transaction
 
             return $result;
 
-        }catch (\Throwable $e){
+        }catch (Throwable $e){
             DB::rollBack();
 
             if (!is_null($onError)){
