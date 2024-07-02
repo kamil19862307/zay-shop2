@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title')
-    {{__('Главная')}}
-@endsection
+{{--@section('title')--}}
+{{--    {{__('Главная')}}--}}
+{{--@endsection--}}
 
 
 @section('content')

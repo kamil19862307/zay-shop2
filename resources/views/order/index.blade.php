@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $category->title ?? 'Оформление заказа')
+{{--@section('title', $seo->title ?? 'Оформление заказа')--}}
 
 @section('content')
 

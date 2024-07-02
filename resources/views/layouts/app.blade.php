@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>
-        @yield('title', env('APP_NAME'))
+        @yield('title', $seo_title ?? env('APP_NAME'))
     </title>
+
+    <meta name="description" content="{{ $seo_description }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

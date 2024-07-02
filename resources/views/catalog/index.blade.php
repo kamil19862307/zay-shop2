@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $category->title ?? 'Каталог')
+{{--@section('title', $category->title ?? 'Каталог')--}}
 
 @section('content')
 <!-- Start Content -->
